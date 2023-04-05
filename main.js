@@ -4,14 +4,15 @@ import "./style.css"
 const RESULTADOS = [];
 
 const initHome = () => {
-
   pintarPreguntas();
 };
 
 const pintarPreguntas = () => {
   const app$$ = document.querySelector("#app");
 
-  for (const tarjeta of preguntas) {
+  for (let i = 0; i < preguntas.length; i++) {
+
+    let tarjeta = preguntas[i];
 
     RESULTADOS.push({
       respuestaCorrecta: tarjeta.correcta,
@@ -29,6 +30,7 @@ const pintarPreguntas = () => {
     tarjeta.respuestas.forEach((respuesta) => {
       const respuesta$$ = document.createElement("h4");
 
+      respuesta$$.classList.add("agrupacion" + i);
       respuesta$$.textContent = respuesta;
       respuesta$$.addEventListener("click", () => elegir(tarjeta, respuesta, respuesta$$));
 
@@ -42,11 +44,19 @@ const pintarPreguntas = () => {
 
 const elegir = (tarjeta, respuesta, respuesta$$) => {
 
-  respuesta$$.className = "seleccionada";
+  const respuestas$$ = document.querySelectorAll(`.${respuesta$$.className}`);
+
+  for (const r$$ of respuestas$$) {
+    r$$.classList.remove("seleccionada");
+  }
+
+  respuesta$$.classList.add("seleccionada");
 
   const posicion = preguntas.indexOf(tarjeta);
 
   RESULTADOS[posicion].respuestaElegida = respuesta;
+
+  console.log(RESULTADOS);
 
   let relleno = true;
 
@@ -67,17 +77,14 @@ const elegir = (tarjeta, respuesta, respuesta$$) => {
 const comprobar = () => {
 
   let correctas = 0;
-  let incorrectas = 0;
 
   for (const resultado of RESULTADOS) {
     if (resultado.respuestaCorrecta === resultado.respuestaElegida) {
       correctas++;
-    } else {
-      incorrectas++;
     }
   }
 
-  alert(`Has sacado un: ${correctas}`)
+  alert(`Has sacado un: ${correctas}`);
 
 }
 

@@ -80,3 +80,4 @@ export const preguntas = [
     correcta: "object",
   }
 ];
+
